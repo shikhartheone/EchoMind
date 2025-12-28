@@ -1,8 +1,8 @@
 # 🧠 EchoMind — Real-Time AI Meeting Intelligence
 
-EchoMind is an AI-powered **real-time meeting assistant** that listens to live meetings, transcribes conversations, builds long-term memory, and lets participants ask intelligent questions about what was discussed — similar to **Otter.ai** or **Zoom AI Companion**.
+EchoMind is an AI-powered **real-time meeting assistant** that listens to live meetings, transcribes conversations, builds long-term memory, and lets participants ask intelligent questions about what was discussed in the meet.
 
-It combines **LiveKit**, **Deepgram**, **Gemini**, and **RAG (Retrieval-Augmented Generation)** to deliver a **production-grade AI meeting copilot**.
+It combines **LiveKit**, **Deepgram**, **Gemini**, and **RAG (Retrieval-Augmented Generation)** to deliver a **AI meeting copilot**.
 
 ---
 
@@ -44,92 +44,6 @@ React Frontend
 
 ---
 
-## 🔥 Core Features
-
-### 🎙 Live Transcription
-
-Audio from all meeting participants is captured via **LiveKit** and transcribed in real time using **Deepgram WebSockets**.
-
----
-
-### 🧠 Hierarchical Memory System
-
-EchoMind stores meeting context in **two memory layers**:
-
-#### 🔹 Short-Term Memory (RAM)
-
-- Stores the last few minutes of conversation
-- Used for continuity and live summaries
-
-#### 🔹 Long-Term Memory (Vector DB)
-
-- All meeting transcripts are embedded and stored in **ChromaDB**
-- Enables semantic search and contextual question answering
-
----
-
-### 🔍 Meeting Q&A (RAG Copilot)
-
-Users can ask questions like:
-
-- _“What was decided?”_
-- _“Did anyone mention budget?”_
-- _“Who talked about Deepgram?”_
-
-#### 🔁 RAG Flow
-
-```
-User Question
-    → Chroma Vector DB
-    → Relevant Transcript Chunks
-    → Gemini
-    → Final Answer
-```
-
-✅ Prevents token overflow in long meetings  
-✅ Ensures grounded, non-hallucinated answers  
-✅ Scales efficiently with meeting length
-
----
-
-### 🧠 Smart Meeting Summary
-
-EchoMind can generate at any point:
-
-- Meeting summary
-- Key decisions
-- Open questions
-
-Powered by **Gemini**, with a **heuristic fallback** if the LLM is unavailable.
-
----
-
-## 🖥 Frontend UI
-
-The React dashboard includes:
-
-- Live transcript
-- Participant list
-- Microphone controls
-- AI Copilot (“Ask EchoMind”)
-- Meeting summary panel
-
----
-
-## 🧰 Tech Stack
-
-| Layer          | Technology                  |
-| -------------- | --------------------------- |
-| Frontend       | React, Material UI          |
-| Realtime Audio | LiveKit                     |
-| Speech-to-Text | Deepgram (WebSocket)        |
-| LLM            | Google Gemini               |
-| Vector DB      | ChromaDB                    |
-| RAG Service    | FastAPI (Python)            |
-| Backend API    | Node.js (Express)           |
-| AI Worker      | Node.js (LiveKit RTC Agent) |
-
----
 
 ## ⚙️ Setup Instructions
 
