@@ -28,9 +28,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Connect to Chroma
-chroma_client = chromadb.HttpClient(host="localhost", port=8000)
+# Connect to Chroma (HTTP if available, else persistent local)
 collection = None
+chroma_client = None
+
+def _init_chroma_client():
+    global chroma_client
+    host = os.getenv("ECHOMIND_CHROMA_HOST", "127.0.0.1")
+    port = int(os.getenv("ECHOMIND_CHROMA_PORT", "8000"))
+    try:
+        chroma_client = chromadb.HttpClient(host=host, port=port)
+        logger.info(f"🌐 Using Chroma HTTP at {host}:{port}")
+    except Exception as e:
+        data_dir = os.path.join(os.path.dirname(__file__), "chroma_data")
+        os.makedirs(data_dir, exist_ok=True)
+        chroma_client = chromadb.PersistentClient(path=data_dir)
+        logger.warning(
+            f"⚠️ Chroma HTTP connect failed ({e}); falling back to PersistentClient at {data_dir}"
+        )
 RECENTS: list[dict] = []
 RECENT_LIMIT = 100
 
@@ -38,6 +53,8 @@ RECENT_LIMIT = 100
 def init_collection():
     global collection
     try:
+        if chroma_client is None:
+            _init_chroma_client()
         collection = chroma_client.get_or_create_collection(
             name="echomind",
             metadata={"hnsw:space": "cosine"}

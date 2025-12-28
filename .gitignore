@@ -15,3 +15,4 @@ ai-worker/node_modules
 Thumbs.db
 
 chroma/
+ai-worker/chroma_data/
