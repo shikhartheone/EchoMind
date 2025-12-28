@@ -10,11 +10,15 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@deepgram/sdk": "^4.11.3",
+    "@google/generative-ai": "^0.24.1",
+    "@livekit/rtc-node": "^0.13.22",
     "dotenv": "^17.2.3",
+    "livekit-client": "^2.16.1",
     "livekit-server-sdk": "^2.15.0",
     "node-fetch": "^3.3.2",
-    "openai": "^6.15.0",
     "puppeteer": "^24.34.0",
+    "wav": "^1.0.2",
     "ws": "^8.18.3"
   }
 }

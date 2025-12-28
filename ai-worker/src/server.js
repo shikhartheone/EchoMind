@@ -1,2 +1,4 @@
 require("dotenv").config();
-require("./app")();
+const { startAgent } = require("./agent");
+
+startAgent("echomind-demo");
