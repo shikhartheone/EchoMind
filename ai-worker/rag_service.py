@@ -31,6 +31,8 @@ app.add_middleware(
 # Connect to Chroma
 chroma_client = chromadb.HttpClient(host="localhost", port=8000)
 collection = None
+RECENTS: list[dict] = []
+RECENT_LIMIT = 100
 
 
 def init_collection():
@@ -75,6 +77,9 @@ async def add_transcript(req: AddTranscriptRequest):
             documents=[req.text],
             metadatas=[{"speaker": req.speaker}]
         )
+        RECENTS.append({"id": doc_id, "speaker": req.speaker, "text": req.text})
+        if len(RECENTS) > RECENT_LIMIT:
+            RECENTS.pop(0)
         logger.info(f"📝 Added: [{req.speaker}] {req.text[:50]}")
         return {"status": "ok", "id": doc_id}
     except Exception as e:
@@ -107,6 +112,23 @@ async def query_memory(req: QueryRequest):
     except Exception as e:
         logger.error(f"❌ Query failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/recent")
+async def recent(n: int = 20):
+    """Return last N transcripts from in-memory buffer"""
+    try:
+        items = RECENTS[-n:]
+        return {"items": items}
+    except Exception as e:
+        logger.error(f"❌ Recent failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# Alias to avoid client path mismatches
+@app.get("/recents")
+async def recent_alias(n: int = 20):
+    return await recent(n)
 
 
 @app.get("/query_text")
