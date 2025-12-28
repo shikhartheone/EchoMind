@@ -6,6 +6,7 @@ ai-worker/.env
 
 # Design docs (private)
 DESIGN.md
+docs/
 
 # Dependencies
 node_modules
