@@ -6,6 +6,10 @@ It combines **LiveKit**, **Deepgram**, **Gemini**, and **RAG (Retrieval-Augmente
 
 ---
 
+## Demo Vedio 
+
+
+
 ## 🚀 What EchoMind Does
 
 ✅ Real-time speech-to-text  
