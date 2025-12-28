@@ -6,7 +6,8 @@ It combines **LiveKit**, **Deepgram**, **Gemini**, and **RAG (Retrieval-Augmente
 
 ---
 
-## Demo Vedio 
+## Demo Vedio : https://drive.google.com/file/d/1EhhwDRqBnPp4D5ToQr49gjlhwmTglum1/view?usp=sharing
+## Documentation (for lenskart :)) : https://drive.google.com/file/d/1S_fw8Csqb7aqQ7lFAg-jTS9YauY9unTR/view?usp=sharing
 
 
 
