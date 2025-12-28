@@ -1,9 +1,12 @@
 const WebSocket = require("ws");
+const { addTranscript } = require("../memory/meetingMemory");
+const { addToShortTerm } = require("../memory/shortTerm");
 
 class DeepgramStream {
-  constructor() {
+  constructor(speaker = "unknown") {
     this.ws = null;
     this.isOpen = false;
+    this.speaker = speaker;
   }
 
   connect(sampleRate = 48000) {
@@ -32,9 +35,16 @@ class DeepgramStream {
       const data = JSON.parse(msg.toString());
 
       const transcript = data?.channel?.alternatives?.[0]?.transcript || "";
+      const isFinal = data?.is_final || false;
 
       if (transcript.trim()) {
         console.log("📝", transcript);
+
+        // Save to memory if final transcript
+        if (isFinal) {
+          addToShortTerm(transcript, this.speaker);
+          addTranscript(transcript, this.speaker);
+        }
       }
     });
 
