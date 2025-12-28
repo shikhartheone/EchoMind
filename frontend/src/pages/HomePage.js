@@ -2,6 +2,7 @@ import JoinCard from "../components/meeting/JoinCard";
 import MeetingStatus from "../components/meeting/MeetingStatus";
 import ParticipantsList from "../components/meeting/ParticipantsList";
 import AiPanel from "../components/ai/AiPanel";
+import MeetingSummary from "../components/ai/MeetingSummary";
 import { Grid, Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -48,6 +49,7 @@ export default function HomePage() {
         )}
         <MeetingStatus />
         <AiPanel />
+        <MeetingSummary />
       </Grid>
       <Grid item xs={12} md={4}>
         <ParticipantsList />
