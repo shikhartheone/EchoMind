@@ -72,4 +72,27 @@ async function summarizeMeeting(transcripts) {
   }
 }
 
-module.exports = { summarizeMeeting };
+async function askGemini(prompt) {
+  init();
+  if (!API_KEY || !model) {
+    return "Unable to answer: Gemini API not configured.";
+  }
+
+  try {
+    console.log("💬 Calling GEMINI for Q&A...");
+    const resp = await model.generateContent({
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+    });
+    const text =
+      resp?.response?.text?.() ||
+      resp?.response?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "";
+    console.log("✅ GEMINI Q&A response generated");
+    return text;
+  } catch (e) {
+    console.log("⚠️ GEMINI Q&A failed:", e.message);
+    return "Error generating response. Please try again.";
+  }
+}
+
+module.exports = { summarizeMeeting, askGemini };

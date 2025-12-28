@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 
 const RAG_URL = "http://127.0.0.1:5000";
+const BACKEND_URL =
+  process.env.REACT_APP_BACKEND_URL || "http://127.0.0.1:5050";
 
 export default function AiPanel() {
   const [recent, setRecent] = useState([]);
@@ -47,16 +49,33 @@ export default function AiPanel() {
     setLoading(true);
     setAnswer("");
     try {
-      const res = await fetch(`${RAG_URL}/query`, {
+      console.log("💬 Q&A: Calling backend...", question);
+      const res = await fetch(`${BACKEND_URL}/api/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: question, n_results: 5 }),
+        body: JSON.stringify({ question }),
       });
+
+      if (!res.ok) {
+        console.log("⚠️ Q&A: Backend not OK, using RAG fallback");
+        // Fallback to RAG query if backend fails
+        const ragRes = await fetch(`${RAG_URL}/query`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: question, n_results: 5 }),
+        });
+        const ragData = await ragRes.json();
+        const docs = ragData.documents || [];
+        setAnswer(docs[0] || "No matching context found.");
+        return;
+      }
+
       const data = await res.json();
-      const docs = data.documents || [];
-      setAnswer(docs[0] || "No matching context found.");
+      console.log("✅ Q&A: Got response from backend");
+      setAnswer(data.answer || "No answer generated.");
     } catch (e) {
-      setAnswer("Query failed.");
+      console.log("❌ Q&A: Error", e.message);
+      setAnswer("Query failed. Please try again.");
     } finally {
       setLoading(false);
     }
