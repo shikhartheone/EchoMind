@@ -46,7 +46,7 @@ async function startAgent(roomName) {
       const audioStream = new AudioStream(track);
 
       // Open Deepgram streaming socket once per subscribed audio track
-      const dg = new DeepgramStream();
+      const dg = new DeepgramStream(participant.identity);
       dg.connect(48000);
 
       for await (const frame of audioStream) {

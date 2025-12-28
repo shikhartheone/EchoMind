@@ -13,6 +13,7 @@
     "@deepgram/sdk": "^4.11.3",
     "@google/generative-ai": "^0.24.1",
     "@livekit/rtc-node": "^0.13.22",
+    "chromadb": "^3.2.0",
     "dotenv": "^17.2.3",
     "livekit-client": "^2.16.1",
     "livekit-server-sdk": "^2.15.0",
