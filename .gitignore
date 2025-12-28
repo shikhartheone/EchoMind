@@ -16,3 +16,14 @@ Thumbs.db
 
 chroma/
 ai-worker/chroma_data/
+
+# Vector DB
+chroma/
+chroma/**
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Model cache
+.cache/
